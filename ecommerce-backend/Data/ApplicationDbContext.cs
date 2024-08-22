@@ -9,7 +9,6 @@ namespace ecommerce_backend.Data
             : base(options)
         {
         }
-
         public DbSet<User> UserData { get; set; }
     }
 }
