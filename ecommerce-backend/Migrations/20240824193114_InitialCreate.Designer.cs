@@ -5,13 +5,14 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ecommerce_backend.Data;
+using ecommerce_backend.Models;
 
 #nullable disable
 
 namespace ecommerce_backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240813101103_InitialCreate")]
+    [Migration("20240824193114_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -19,9 +20,10 @@ namespace ecommerce_backend.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.7")
+                .HasAnnotation("ProductVersion", "8.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "role", new[] { "admin", "user", "guest" });
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("ecommerce_backend.Models.User", b =>
@@ -34,27 +36,35 @@ namespace ecommerce_backend.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(25)
+                        .HasColumnType("character varying(25)");
+
+                    b.Property<User.Role>("UserRole")
+                        .HasColumnType("role");
 
                     b.HasKey("Id");
 
-                    b.ToTable("UserData");
+                    b.ToTable("User");
                 });
 #pragma warning restore 612, 618
         }

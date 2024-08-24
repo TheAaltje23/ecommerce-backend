@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using ecommerce_backend.Models;
+﻿using ecommerce_backend.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace ecommerce_backend.Data
 {
@@ -9,6 +9,9 @@ namespace ecommerce_backend.Data
             : base(options)
         {
         }
-        public DbSet<User> UserData { get; set; }
+
+        public DbSet<User> User { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder) => builder.HasPostgresEnum<User.Role>();
     }
 }
