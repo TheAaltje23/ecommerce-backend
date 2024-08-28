@@ -1,9 +1,11 @@
 using ecommerce_backend.Data;
 using ecommerce_backend.Interfaces;
+using ecommerce_backend.Mappers;
 using ecommerce_backend.Models;
 using ecommerce_backend.Services;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,9 +14,17 @@ builder.Configuration
     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 
 // Services
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        // Serialization enum from int to string
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// Automappers
+builder.Services.AddAutoMapper(typeof(UserProfile));
 
 // Custom services
 builder.Services.AddScoped<IUserService, UserService>();

@@ -12,6 +12,9 @@ namespace ecommerce_backend.Data
 
         public DbSet<User> User { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder builder) => builder.HasPostgresEnum<User.Role>();
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.HasPostgresEnum<User.Role>();
+        }
     }
 }

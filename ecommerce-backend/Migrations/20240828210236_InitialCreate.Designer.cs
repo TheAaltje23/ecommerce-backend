@@ -12,7 +12,7 @@ using ecommerce_backend.Models;
 namespace ecommerce_backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240824193114_InitialCreate")]
+    [Migration("20240828210236_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -23,7 +23,7 @@ namespace ecommerce_backend.Migrations
                 .HasAnnotation("ProductVersion", "8.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "role", new[] { "admin", "user", "guest" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "role", new[] { "admin", "user" });
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("ecommerce_backend.Models.User", b =>

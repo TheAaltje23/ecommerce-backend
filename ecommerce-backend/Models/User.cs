@@ -30,13 +30,12 @@ namespace ecommerce_backend.Models
         public string Password { get; set; } = string.Empty;
 
         [Required]
-        public Role UserRole { get; set; } = Role.Guest;
+        public Role UserRole { get; set; } = Role.User;
 
         public enum Role
         {
             Admin,
             User,
-            Guest,
         }
     }
 }

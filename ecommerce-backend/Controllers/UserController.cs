@@ -1,3 +1,6 @@
+using ecommerce_backend.Interfaces;
+using ecommerce_backend.Helpers;
+using ecommerce_backend.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ecommerce_backend.Controllers
@@ -6,18 +9,22 @@ namespace ecommerce_backend.Controllers
     [Route("[controller]")]
     public class UserController : ControllerBase
     {
-        private readonly ILogger<UserController> _logger;
+        private readonly LoggingHelper _logger;
+        private readonly IUserService _service;
 
-        public UserController(ILogger<UserController> logger)
+        public UserController(ILogger<UserController> logger, IUserService service)
         {
-            _logger = logger;
+            _logger = new LoggingHelper(logger);
+            _service = service;
         }
 
-        [HttpGet("test")]
-        public IActionResult Get()
+        [HttpGet("{id:long}")]
+        public async Task<IActionResult> GetUserById(long id)
         {
-            string data = "This works!";
-            return Ok(data);
+            _logger.ReceiveHttpRequest<User>(nameof(GetUserById));
+            var user = await _service.GetUserById(id);
+            _logger.ReturnHttpResponse<User>(nameof(GetUserById));
+            return Ok(user);
         }
     }
 }

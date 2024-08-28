@@ -13,7 +13,7 @@ namespace ecommerce_backend.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterDatabase()
-                .Annotation("Npgsql:Enum:role", "admin,user,guest");
+                .Annotation("Npgsql:Enum:role", "admin,user");
 
             migrationBuilder.CreateTable(
                 name: "User",
