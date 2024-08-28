@@ -1,4 +1,5 @@
 using ecommerce_backend.Data;
+using ecommerce_backend.Interfaces;
 using ecommerce_backend.Models;
 using ecommerce_backend.Services;
 using Microsoft.EntityFrameworkCore;
@@ -16,7 +17,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Custom services
-builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 // DbContext for EFC (PostgreSQL) & mapping User.Role enum
 var dataSourceBuilder = new NpgsqlDataSourceBuilder(builder.Configuration.GetConnectionString("DefaultConnection"));
