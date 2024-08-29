@@ -59,6 +59,11 @@ namespace ecommerce_backend.Migrations
                     b.Property<User.Role>("UserRole")
                         .HasColumnType("role");
 
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
                     b.HasKey("Id");
 
                     b.ToTable("User");

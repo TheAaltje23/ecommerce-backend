@@ -1,4 +1,5 @@
 ﻿using ecommerce_backend.Dto;
+using ecommerce_backend.Models;
 
 namespace ecommerce_backend.Interfaces
 {
@@ -6,7 +7,7 @@ namespace ecommerce_backend.Interfaces
     {
         // Read single
         Task<ReadUserDto> GetUserById(long id);
-        //Task<User> GetUserByFirstName(string firstName);
+        Task<ReadUserDto> GetUserByUsername(string username);
         //Task<User> GetUserByLastName(string lastName);
         //Task<User> GetUserByPhoneNumber(string phoneNumber);
         //Task<User> GetUserByEmail(string email);
@@ -16,7 +17,7 @@ namespace ecommerce_backend.Interfaces
         //Task<IEnumerable<User>> GetAllUsersByRole(User.Role role);
 
         //// CUD
-        //Task CreateUser(User user);
+        Task CreateUser(CreateUserDto dto);
         //Task UpdateUser(User user);
         //Task DeleteUser(long id);
     }

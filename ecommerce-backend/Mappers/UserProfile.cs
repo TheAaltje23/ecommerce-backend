@@ -9,6 +9,7 @@ namespace ecommerce_backend.Mappers
         public UserProfile() 
         {
             CreateMap<User, ReadUserDto>();
+            CreateMap<CreateUserDto, User>();
         }
     }
 }

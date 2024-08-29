@@ -12,7 +12,7 @@ using ecommerce_backend.Models;
 namespace ecommerce_backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240828210236_InitialCreate")]
+    [Migration("20240829115814_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -61,6 +61,11 @@ namespace ecommerce_backend.Migrations
 
                     b.Property<User.Role>("UserRole")
                         .HasColumnType("role");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.HasKey("Id");
 

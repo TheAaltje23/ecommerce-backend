@@ -5,6 +5,7 @@ using ecommerce_backend.Exceptions;
 using ecommerce_backend.Helpers;
 using ecommerce_backend.Interfaces;
 using ecommerce_backend.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace ecommerce_backend.Services
 {
@@ -21,17 +22,49 @@ namespace ecommerce_backend.Services
             _mapper = mapper;
         }
 
+        // READ
         public async Task<ReadUserDto> GetUserById(long id)
         {
-            _logger.FetchDb<User>(nameof(id), id);
+            _logger.ReadDb<User>(nameof(id), id);
             var user = await _db.User.FindAsync(id);
             if (user == null)
             {
-                _logger.NotFoundDb<User>(nameof(id), id);
                 throw new NotFoundException<User>(nameof(id), id);
             }
-            var userDto = _mapper.Map<ReadUserDto>(user);
-            return userDto;
+            return _mapper.Map<ReadUserDto>(user);
+        }
+
+        public async Task<ReadUserDto> GetUserByUsername(string username)
+        {
+            _logger.ReadDb<User>(nameof(username), username);
+            var user = await _db.User.FirstOrDefaultAsync(u => u.Username == username);
+            if (user == null)
+            {
+                throw new NotFoundException<User>(nameof(username), username);
+            }
+            return _mapper.Map<ReadUserDto>(user);
+        }
+
+        // CREATE
+        public async Task CreateUser(CreateUserDto dto)
+        {
+            if (string.IsNullOrWhiteSpace(dto.Username) || string.IsNullOrWhiteSpace(dto.Password))
+            {
+                throw new IncompleteException<User>();
+            }
+
+            var existingUser = GetUserByUsername(dto.Username);
+
+            if (existingUser != null)
+            {
+                throw new AlreadyExistsException<User>(nameof(dto.Username), dto.Username);
+            }
+
+            var newUser = _mapper.Map<User>(dto);
+
+            _logger.CreateDb<User>(nameof(newUser.Username), newUser.Username);
+            _db.User.Add(newUser);
+            await _db.SaveChangesAsync();
         }
     }
 }
