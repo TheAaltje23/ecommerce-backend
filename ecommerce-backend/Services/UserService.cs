@@ -53,7 +53,7 @@ namespace ecommerce_backend.Services
                 throw new IncompleteException<User>();
             }
 
-            var existingUser = GetUserByUsername(dto.Username);
+            var existingUser = await _db.User.FirstOrDefaultAsync(u =>  u.Username == dto.Username);
 
             if (existingUser != null)
             {
