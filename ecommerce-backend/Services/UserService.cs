@@ -48,11 +48,6 @@ namespace ecommerce_backend.Services
         // CREATE
         public async Task CreateUser(CreateUserDto dto)
         {
-            if (string.IsNullOrWhiteSpace(dto.Username) || string.IsNullOrWhiteSpace(dto.Password))
-            {
-                throw new IncompleteException<User>();
-            }
-
             var existingUser = await _db.User.FirstOrDefaultAsync(u =>  u.Username == dto.Username);
 
             if (existingUser != null)
