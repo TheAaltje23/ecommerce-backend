@@ -3,6 +3,6 @@
     public class AlreadyExistsException<T> : Exception
     {
         public AlreadyExistsException(string propertyName, object propertyValue) 
-            : base($"{typeof(T).Name} with {propertyName} '{propertyValue}' already exists") { }
+            : base($"{typeof(T).Name} with {propertyName} '{propertyValue}' already exists.") { }
     }
 }

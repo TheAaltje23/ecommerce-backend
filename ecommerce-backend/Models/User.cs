@@ -8,33 +8,28 @@ namespace ecommerce_backend.Models
         public long Id { get; set; }
 
         [Required]
-        [RegularExpression(@"\S+", ErrorMessage = "Username cannot be blank")]
-        [StringLength(50, ErrorMessage = "Username cannot be longer than 50 characters")]
-        public string Username { get; set; } = string.Empty;
+        [RegularExpression(@"\S+", ErrorMessage = "Username cannot be blank.")]
+        [StringLength(50, ErrorMessage = "Username cannot be longer than 50 characters.")]
+        public string? Username { get; set; }
 
         [Required]
-        [StringLength(100, MinimumLength = 8, ErrorMessage = "Password must be between 8 and 100 characters long")]
-        public string Password { get; set; } = string.Empty;
+        [StringLength(100, MinimumLength = 8, ErrorMessage = "Password must be between 8 and 100 characters long.")]
+        public string? Password { get; set; }
 
-        [Required]
-        [StringLength(50, ErrorMessage = "First name cannot be longer than 50 characters")]
-        public string FirstName { get; set; } = string.Empty;
+        [StringLength(50, ErrorMessage = "First name cannot be longer than 50 characters.")]
+        public string? FirstName { get; set; }
 
-        [Required]
-        [StringLength(50, ErrorMessage = "Last name cannot be longer than 50 characters")]
-        public string LastName { get; set; } = string.Empty;
+        [StringLength(50, ErrorMessage = "Last name cannot be longer than 50 characters.")]
+        public string? LastName { get; set; }
 
-        [Required]
-        [StringLength(100, ErrorMessage = "Email cannot be longer than 100 characters")]
-        [EmailAddress(ErrorMessage = "Invalid email address format")]
-        public string Email { get; set; } = string.Empty;
+        [StringLength(100, ErrorMessage = "Email cannot be longer than 100 characters.")]
+        [EmailAddress(ErrorMessage = "Invalid email address format.")]
+        public string? Email { get; set; }
 
-        [Required]
-        [StringLength(25, ErrorMessage = "Phone number cannot be longer than 25 characters")]
-        [Phone(ErrorMessage = "Invalid phone number format")]
-        public string PhoneNumber { get; set; } = string.Empty;
+        [StringLength(25, ErrorMessage = "Phone number cannot be longer than 25 characters.")]
+        [Phone(ErrorMessage = "Invalid phone number format.")]
+        public string? PhoneNumber { get; set; }
 
-        [Required]
         public Role UserRole { get; set; } = Role.User;
 
         public enum Role
