@@ -2,7 +2,7 @@
 {
     public class AlreadyExistsException<T> : Exception
     {
-        public AlreadyExistsException(string propertyName, object propertyValue) 
+        public AlreadyExistsException(string propertyName, object? propertyValue) 
             : base($"{typeof(T).Name} with {propertyName} '{propertyValue}' already exists.") { }
     }
 }

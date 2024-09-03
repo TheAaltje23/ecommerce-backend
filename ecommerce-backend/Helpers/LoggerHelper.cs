@@ -21,17 +21,17 @@
         }
 
         // Service loggers
-        public void ReadDb<T>(string propertyName, object propertyValue)
+        public void ReadDb<T>(string propertyName, object? propertyValue)
         {
             _logger.LogInformation($"Fetching {typeof(T).Name} by {propertyName}: {propertyValue} from the database.");
         }
 
-        public void CreateDb<T>(string propertyName, object propertyValue)
+        public void CreateDb<T>(string propertyName, object? propertyValue)
         {
             _logger.LogWarning($"Creating {typeof(T).Name} with {propertyName}: {propertyValue} and saving it to the database.");
         }
 
-        public void UpdateDb<T>(string propertyName, object propertyValue)
+        public void UpdateDb<T>(string propertyName, object? propertyValue)
         {
             _logger.LogWarning($"Updating {typeof(T).Name} with {propertyName}: {propertyValue} and saving it to the database.");
         }
