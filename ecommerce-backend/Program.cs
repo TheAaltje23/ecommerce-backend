@@ -1,6 +1,7 @@
 using ecommerce_backend.Data;
 using ecommerce_backend.Interfaces;
 using ecommerce_backend.Mappers;
+using ecommerce_backend.Middleware;
 using ecommerce_backend.Models;
 using ecommerce_backend.Services;
 using Microsoft.EntityFrameworkCore;
@@ -22,6 +23,8 @@ builder.Services.AddControllers()
     });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddProblemDetails();
 
 // Automappers
 builder.Services.AddAutoMapper(typeof(UserProfile));
@@ -43,6 +46,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+// ASK
+app.UseExceptionHandler();
 
 app.UseHttpsRedirection();
 

@@ -28,12 +28,12 @@
 
         public void CreateDb<T>(string propertyName, object? propertyValue)
         {
-            _logger.LogWarning($"Creating {typeof(T).Name} with {propertyName}: {propertyValue} and saving it to the database.");
+            _logger.LogInformation($"Creating {typeof(T).Name} with {propertyName}: {propertyValue} and saving it to the database.");
         }
 
         public void UpdateDb<T>(string propertyName, object? propertyValue)
         {
-            _logger.LogWarning($"Updating {typeof(T).Name} with {propertyName}: {propertyValue} and saving it to the database.");
+            _logger.LogInformation($"Updating {typeof(T).Name} with {propertyName}: {propertyValue} and saving it to the database.");
         }
     }
 }
