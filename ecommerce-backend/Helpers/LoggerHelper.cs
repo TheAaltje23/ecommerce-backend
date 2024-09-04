@@ -23,17 +23,17 @@
         // Service loggers
         public void ReadDb<T>(string propertyName, object? propertyValue)
         {
-            _logger.LogInformation($"Fetching {typeof(T).Name} by {propertyName}: {propertyValue} from the database.");
+            _logger.LogInformation($"Fetching {typeof(T).Name} by {propertyName.ToLower()}: {propertyValue} from the database.");
         }
 
         public void CreateDb<T>(string propertyName, object? propertyValue)
         {
-            _logger.LogInformation($"Creating {typeof(T).Name} with {propertyName}: {propertyValue} and saving it to the database.");
+            _logger.LogInformation($"Creating {typeof(T).Name} with {propertyName.ToLower()}: {propertyValue} and saving it to the database.");
         }
 
         public void UpdateDb<T>(string propertyName, object? propertyValue)
         {
-            _logger.LogInformation($"Updating {typeof(T).Name} with {propertyName}: {propertyValue} and saving it to the database.");
+            _logger.LogInformation($"Updating {typeof(T).Name} with {propertyName.ToLower()}: {propertyValue} and saving it to the database.");
         }
     }
 }

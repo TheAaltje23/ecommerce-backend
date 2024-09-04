@@ -40,14 +40,15 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Configure the HTTP request pipeline
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-// ASK
+app.UseStatusCodePages();
+
 app.UseExceptionHandler();
 
 app.UseHttpsRedirection();
