@@ -45,6 +45,16 @@ namespace ecommerce_backend.Controllers
             _logger.ReceiveHttpRequest<User>(nameof(CreateUser));
             await _service.CreateUser(dto);
             _logger.ReturnHttpResponse<User>(nameof(CreateUser));
+            return Created();
+        }
+
+        // PUT
+        [HttpPut("update/{id}")]
+        public async Task<IActionResult> UpdateUser([FromBody] UpdateUserDto dto, long id)
+        {
+            _logger.ReceiveHttpRequest<User>(nameof(UpdateUser));
+            await _service.UpdateUser(dto, id);
+            _logger.ReturnHttpResponse<User>(nameof(UpdateUser));
             return Ok();
         }
     }

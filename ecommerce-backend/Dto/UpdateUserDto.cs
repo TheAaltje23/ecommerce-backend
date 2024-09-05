@@ -3,18 +3,15 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ecommerce_backend.Dto
 {
-    public class CreateUserDto
+    public class UpdateUserDto
     {
-        [Required]
         [RegularExpression(@"\S+", ErrorMessage = "Username cannot be blank.")]
         [StringLength(50, MinimumLength = 8, ErrorMessage = "Username must be between 8 and 50 characters long.")]
         public string? Username { get; init; }
 
-        [Required]
         [StringLength(100, MinimumLength = 8, ErrorMessage = "Password must be between 8 and 100 characters long.")]
         public string? Password { get; init; }
 
-        // Optional fields for further user information during creation
         [StringLength(50, ErrorMessage = "First name cannot be longer than 50 characters.")]
         public string? FirstName { get; init; }
 
@@ -29,6 +26,6 @@ namespace ecommerce_backend.Dto
         [Phone(ErrorMessage = "Invalid phone number format.")]
         public string? PhoneNumber { get; init; }
 
-        public User.Role UserRole { get; init; } = User.Role.User;
+        public User.Role UserRole { get; init; }
     }
 }

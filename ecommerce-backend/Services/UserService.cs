@@ -61,5 +61,32 @@ namespace ecommerce_backend.Services
             _db.User.Add(newUser);
             await _db.SaveChangesAsync();
         }
+
+        // UPDATE
+        public async Task UpdateUser(UpdateUserDto dto, long id)
+        {
+            var existingUser = await _db.User.FindAsync(id);
+
+            if (existingUser == null)
+            {
+                throw new NotFoundException<User>(nameof(id), id);
+            }
+
+            existingUser.Username = dto.Username ?? existingUser.Username;
+            existingUser.Password = dto.Password ?? existingUser.Password;
+            existingUser.FirstName = dto.FirstName ?? existingUser.FirstName;
+            existingUser.LastName = dto.LastName ?? existingUser.LastName;
+            existingUser.Email = dto.Email ?? existingUser.Email;
+            existingUser.PhoneNumber = dto.PhoneNumber ?? existingUser.PhoneNumber;
+            
+            if (existingUser.UserRole != dto.UserRole)
+            {
+                existingUser.UserRole = dto.UserRole;
+            }
+
+            _logger.UpdateDb<User>(nameof(id), id);
+            _db.User.Update(existingUser);
+            await _db.SaveChangesAsync();
+        }
     }
 }

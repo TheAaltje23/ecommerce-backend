@@ -1,5 +1,4 @@
 ﻿using ecommerce_backend.Dto;
-using ecommerce_backend.Models;
 
 namespace ecommerce_backend.Interfaces
 {
@@ -18,7 +17,7 @@ namespace ecommerce_backend.Interfaces
 
         //// CUD
         Task CreateUser(CreateUserDto dto);
-        //Task UpdateUser(User user);
+        Task UpdateUser(UpdateUserDto dto, long id);
         //Task DeleteUser(long id);
     }
 }

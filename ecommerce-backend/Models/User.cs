@@ -9,7 +9,7 @@ namespace ecommerce_backend.Models
 
         [Required]
         [RegularExpression(@"\S+", ErrorMessage = "Username cannot be blank.")]
-        [StringLength(50, ErrorMessage = "Username cannot be longer than 50 characters.")]
+        [StringLength(50, MinimumLength = 8, ErrorMessage = "Username must be between 8 and 50 characters long.")]
         public string? Username { get; set; }
 
         [Required]
