@@ -25,22 +25,16 @@ namespace ecommerce_backend.Services
         // READ
         public async Task<ReadUserDto> GetUserById(long id)
         {
-            var user = await _db.User.FindAsync(id);
-            
-            if (user == null)
-            {
-                throw new NotFoundException<User>(nameof(id), id);
-            }
-
+            var user = await _db.User.FindAsync(id) ?? throw new NotFoundException<User>(nameof(id), id);
             _logger.ReadDb<User>(nameof(id), id);
             return _mapper.Map<ReadUserDto>(user);
         }
 
         public async Task<IEnumerable<ReadUserDto>> GetAllUsers()
         {
-            var users = await _db.User.ToListAsync();
+            var users = await _db.User.OrderBy(u => u.Id).ToListAsync();
 
-            if (users == null)
+            if (users.Count == 0)
             {
                 throw new NotFoundException("No users were found.");
             }
@@ -49,10 +43,53 @@ namespace ecommerce_backend.Services
             return _mapper.Map<IEnumerable<ReadUserDto>>(users);
         }
 
+        public async Task<IEnumerable<ReadUserDto>> Search(SearchUserDto dto)
+        {   
+            IQueryable<User> query = _db.User;
+
+            if (dto.Id != null)
+            {
+                query = query.Where(u => u.Id == dto.Id);
+            }
+
+            if (!string.IsNullOrEmpty(dto.Username))
+            {
+                query = query.Where(u => u.Username != null && u.Username.Contains(dto.Username));
+            }
+
+            if (!string.IsNullOrEmpty(dto.FirstName))
+            {
+                query = query.Where(u => u.FirstName != null && u.FirstName.Contains(dto.FirstName));
+            }
+
+            if (!string.IsNullOrEmpty(dto.LastName))
+            {
+                query = query.Where(u => u.LastName != null && u.LastName.Contains(dto.LastName));
+            }
+
+            if (!string.IsNullOrEmpty(dto.Email))
+            {
+                query = query.Where(u => u.Email != null && u.Email.Contains(dto.Email));
+            }
+
+            if (!string.IsNullOrEmpty(dto.PhoneNumber))
+            {
+                query = query.Where(u => u.PhoneNumber != null && u.PhoneNumber.Contains(dto.PhoneNumber));
+            }
+
+            if (dto.UserRole != null)
+            {
+                query = query.Where(u => u.UserRole == dto.UserRole);
+            }
+
+            var users = await query.ToListAsync();
+            return _mapper.Map<IEnumerable<ReadUserDto>>(users);
+        }
+
         // CREATE
         public async Task CreateUser(CreateUserDto dto)
         {
-            var existingUser = await _db.User.FirstOrDefaultAsync(u =>  u.Username == dto.Username);
+            var existingUser = await _db.User.FirstOrDefaultAsync(u => u.Username == dto.Username);
 
             if (existingUser != null)
             {
@@ -69,12 +106,7 @@ namespace ecommerce_backend.Services
         // UPDATE
         public async Task UpdateUser(UpdateUserDto dto, long id)
         {
-            var existingUser = await _db.User.FindAsync(id);
-
-            if (existingUser == null)
-            {
-                throw new NotFoundException<User>(nameof(id), id);
-            }
+            var existingUser = await _db.User.FindAsync(id) ?? throw new NotFoundException<User>(nameof(id), id);
 
             existingUser.Username = dto.Username ?? existingUser.Username;
             existingUser.Password = dto.Password ?? existingUser.Password;
@@ -82,7 +114,7 @@ namespace ecommerce_backend.Services
             existingUser.LastName = dto.LastName ?? existingUser.LastName;
             existingUser.Email = dto.Email ?? existingUser.Email;
             existingUser.PhoneNumber = dto.PhoneNumber ?? existingUser.PhoneNumber;
-            
+
             if (existingUser.UserRole != dto.UserRole)
             {
                 existingUser.UserRole = dto.UserRole;
@@ -96,13 +128,7 @@ namespace ecommerce_backend.Services
         // DELETE
         public async Task DeleteUser(long id)
         {
-            var existingUser = await _db.User.FindAsync(id);
-
-            if (existingUser == null)
-            {
-                throw new NotFoundException<User>(nameof(id), id);
-            }
-
+            var existingUser = await _db.User.FindAsync(id) ?? throw new NotFoundException<User>(nameof(id), id);
             _logger.DeleteDb<User>(nameof(id), id);
             _db.User.Remove(existingUser);
             await _db.SaveChangesAsync();

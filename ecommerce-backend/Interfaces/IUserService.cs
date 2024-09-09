@@ -6,6 +6,7 @@ namespace ecommerce_backend.Interfaces
     {
         Task<ReadUserDto> GetUserById(long id);
         Task<IEnumerable<ReadUserDto>> GetAllUsers();
+        Task<IEnumerable<ReadUserDto>> Search(SearchUserDto dto);
         Task CreateUser(CreateUserDto dto);
         Task UpdateUser(UpdateUserDto dto, long id);
         Task DeleteUser(long id);

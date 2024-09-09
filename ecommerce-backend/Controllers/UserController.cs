@@ -38,6 +38,15 @@ namespace ecommerce_backend.Controllers
             return Ok(users);
         }
 
+        [HttpGet("search")]
+        public async Task<IActionResult> Search([FromQuery] SearchUserDto dto)
+        {
+            _logger.ReceiveHttpRequest<User>(nameof(Search));
+            var users = await _service.Search(dto);
+            _logger.ReturnHttpResponse<User>(nameof(Search));
+            return Ok(users);
+        }
+
         // POST
         [HttpPost("create")]
         public async Task<IActionResult> CreateUser([FromBody] CreateUserDto dto)
