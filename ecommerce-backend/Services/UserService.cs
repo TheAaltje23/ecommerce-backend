@@ -88,5 +88,20 @@ namespace ecommerce_backend.Services
             _db.User.Update(existingUser);
             await _db.SaveChangesAsync();
         }
+
+        // DELETE
+        public async Task DeleteUser(long id)
+        {
+            var existingUser = await _db.User.FindAsync(id);
+
+            if (existingUser == null)
+            {
+                throw new NotFoundException<User>(nameof(id), id);
+            }
+
+            _logger.DeleteDb<User>(nameof(id), id);
+            _db.User.Remove(existingUser);
+            await _db.SaveChangesAsync();
+        }
     }
 }

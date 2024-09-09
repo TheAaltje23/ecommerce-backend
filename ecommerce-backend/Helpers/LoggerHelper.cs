@@ -35,5 +35,10 @@
         {
             _logger.LogInformation($"Updating {typeof(T).Name} with {propertyName.ToLower()}: {propertyValue} and saving it to the database.");
         }
+
+        public void DeleteDb<T>(string propertyName, object? propertyValue)
+        {
+            _logger.LogInformation($"Deleting {typeof(T).Name} with {propertyName.ToLower()}: {propertyValue} from the database.");
+        }
     }
 }
