@@ -25,24 +25,28 @@ namespace ecommerce_backend.Services
         // READ
         public async Task<ReadUserDto> GetUserById(long id)
         {
-            _logger.ReadDb<User>(nameof(id), id);
             var user = await _db.User.FindAsync(id);
+            
             if (user == null)
             {
                 throw new NotFoundException<User>(nameof(id), id);
             }
+
+            _logger.ReadDb<User>(nameof(id), id);
             return _mapper.Map<ReadUserDto>(user);
         }
 
-        public async Task<ReadUserDto> GetUserByUsername(string username)
+        public async Task<IEnumerable<ReadUserDto>> GetAllUsers()
         {
-            _logger.ReadDb<User>(nameof(username), username);
-            var user = await _db.User.FirstOrDefaultAsync(u => u.Username == username);
-            if (user == null)
+            var users = await _db.User.ToListAsync();
+
+            if (users == null)
             {
-                throw new NotFoundException<User>(nameof(username), username);
+                throw new NotFoundException("No users were found.");
             }
-            return _mapper.Map<ReadUserDto>(user);
+
+            _logger.ReadAllDb<User>();
+            return _mapper.Map<IEnumerable<ReadUserDto>>(users);
         }
 
         // CREATE

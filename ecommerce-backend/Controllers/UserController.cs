@@ -29,13 +29,13 @@ namespace ecommerce_backend.Controllers
             return Ok(user);
         }
 
-        [HttpGet("{username}")]
-        public async Task<IActionResult> GetUserByUsername(string username)
+        [HttpGet("all")]
+        public async Task<IActionResult> GetAllUsers()
         {
-            _logger.ReceiveHttpRequest<User>(nameof(GetUserByUsername));
-            var user = await _service.GetUserByUsername(username);
-            _logger.ReturnHttpResponse<User>(nameof(GetUserByUsername));
-            return Ok(user);
+            _logger.ReceiveHttpRequest<User>(nameof(GetAllUsers));
+            var users = await _service.GetAllUsers();
+            _logger.ReturnHttpResponse<User>(nameof(GetAllUsers));
+            return Ok(users);
         }
 
         // POST

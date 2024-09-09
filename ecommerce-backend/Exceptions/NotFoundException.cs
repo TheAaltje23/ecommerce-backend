@@ -8,6 +8,6 @@
     public class NotFoundException<T> : NotFoundException
     {
         public NotFoundException(string propertyName, object? propertyValue)
-    : base($"{typeof(T).Name} with {propertyName.ToLower()} '{propertyValue}' was not found.") { }
+            : base($"{typeof(T).Name} with {propertyName.ToLower()} '{propertyValue}' was not found.") { }
     }
 }

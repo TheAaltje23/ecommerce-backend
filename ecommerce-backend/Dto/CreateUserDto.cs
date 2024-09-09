@@ -14,7 +14,7 @@ namespace ecommerce_backend.Dto
         [StringLength(100, MinimumLength = 8, ErrorMessage = "Password must be between 8 and 100 characters long.")]
         public string? Password { get; init; }
 
-        // Optional fields for further user information during creation
+        // Optional fields
         [StringLength(50, ErrorMessage = "First name cannot be longer than 50 characters.")]
         public string? FirstName { get; init; }
 
