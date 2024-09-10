@@ -30,28 +30,11 @@ namespace ecommerce_backend.Services
             return _mapper.Map<ReadUserDto>(user);
         }
 
-        public async Task<IEnumerable<ReadUserDto>> GetAllUsers()
-        {
-            var users = await _db.User.OrderBy(u => u.Id).ToListAsync();
-
-            if (users.Count == 0)
-            {
-                throw new NotFoundException("No users were found.");
-            }
-
-            _logger.ReadAllDb<User>();
-            return _mapper.Map<IEnumerable<ReadUserDto>>(users);
-        }
-
-        public async Task<IEnumerable<ReadUserDto>> Search(SearchUserDto dto)
+        public async Task<PaginationDto<ReadUserDto>> Search(SearchUserDto dto)
         {   
             IQueryable<User> query = _db.User;
 
-            if (dto.Id != null)
-            {
-                query = query.Where(u => u.Id == dto.Id);
-            }
-
+            // Filtering
             if (!string.IsNullOrEmpty(dto.Username))
             {
                 query = query.Where(u => u.Username != null && u.Username.Contains(dto.Username));
@@ -82,8 +65,27 @@ namespace ecommerce_backend.Services
                 query = query.Where(u => u.UserRole == dto.UserRole);
             }
 
+            int totalItems = await query.CountAsync();
+
+            // Sorting
+            query = dto.SortOrder.ToLower() == "asc"
+                ? query.OrderBy(u => u.Username) 
+                : query.OrderByDescending(u => u.Username);
+
+            // Pagination
+            query = query.Skip((dto.Page - 1) * dto.PageSize).Take(dto.PageSize);
+
             var users = await query.ToListAsync();
-            return _mapper.Map<IEnumerable<ReadUserDto>>(users);
+            var mappedUsers = _mapper.Map<IEnumerable<ReadUserDto>>(users);
+
+            return new PaginationDto<ReadUserDto>
+            {
+                Items = mappedUsers,
+                Page = dto.Page,
+                PageSize = dto.PageSize,
+                TotalItems = totalItems,
+                TotalPages = (int)Math.Ceiling((double)totalItems / dto.PageSize)
+            };
         }
 
         // CREATE

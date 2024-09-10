@@ -29,15 +29,6 @@ namespace ecommerce_backend.Controllers
             return Ok(user);
         }
 
-        [HttpGet("all")]
-        public async Task<IActionResult> GetAllUsers()
-        {
-            _logger.ReceiveHttpRequest<User>(nameof(GetAllUsers));
-            var users = await _service.GetAllUsers();
-            _logger.ReturnHttpResponse<User>(nameof(GetAllUsers));
-            return Ok(users);
-        }
-
         [HttpGet("search")]
         public async Task<IActionResult> Search([FromQuery] SearchUserDto dto)
         {
