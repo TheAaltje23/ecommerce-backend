@@ -6,6 +6,7 @@ using ecommerce_backend.Helpers;
 using ecommerce_backend.Interfaces;
 using ecommerce_backend.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace ecommerce_backend.Services
 {
@@ -35,6 +36,11 @@ namespace ecommerce_backend.Services
             IQueryable<User> query = _db.User;
 
             // Filtering
+            if (dto.Id != null)
+            {
+                query = query.Where(u => u.Id == dto.Id);
+            }
+
             if (!string.IsNullOrEmpty(dto.Username))
             {
                 query = query.Where(u => u.Username != null && u.Username.Contains(dto.Username));
@@ -69,8 +75,8 @@ namespace ecommerce_backend.Services
 
             // Sorting
             query = dto.SortOrder.ToLower() == "asc"
-                ? query.OrderBy(u => u.Username) 
-                : query.OrderByDescending(u => u.Username);
+                ? query.OrderBy(SortHelper.Sort<User>(dto.SortBy))
+                : query.OrderByDescending(SortHelper.Sort<User>(dto.SortBy));
 
             // Pagination
             query = query.Skip((dto.Page - 1) * dto.PageSize).Take(dto.PageSize);

@@ -4,6 +4,7 @@ namespace ecommerce_backend.Dto
 {
     public class SearchUserDto
     {
+        public long? Id { get; init; }
         public string? Username { get; init; }
         public string? FirstName { get; init; }
         public string? LastName { get; init; }
