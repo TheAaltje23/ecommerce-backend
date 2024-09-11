@@ -26,9 +26,9 @@
             _logger.LogInformation($"Fetching {typeof(T).Name} by {propertyName.ToLower()}: {propertyValue} from the database.");
         }
 
-        public void ReadAllDb<T>()
+        public void SearchDb<T>(int amount)
         {
-            _logger.LogInformation($"Fetching all {typeof(T).Name}s from the database.");
+            _logger.LogInformation($"Fetching {amount} {typeof(T).Name}s from the database.");
         }
 
         public void CreateDb<T>(string propertyName, object? propertyValue)

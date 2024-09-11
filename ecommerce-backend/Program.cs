@@ -4,6 +4,7 @@ using ecommerce_backend.Mappers;
 using ecommerce_backend.Middleware;
 using ecommerce_backend.Models;
 using ecommerce_backend.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
 using System.Text.Json.Serialization;
@@ -30,6 +31,9 @@ builder.Services.AddProblemDetails();
 
 // Automappers
 builder.Services.AddAutoMapper(typeof(UserProfile));
+
+// Authentication
+builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 
 // Custom services
 builder.Services.AddScoped<IUserService, UserService>();

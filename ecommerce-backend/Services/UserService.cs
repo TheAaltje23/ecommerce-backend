@@ -5,6 +5,7 @@ using ecommerce_backend.Exceptions;
 using ecommerce_backend.Helpers;
 using ecommerce_backend.Interfaces;
 using ecommerce_backend.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace ecommerce_backend.Services
@@ -14,12 +15,14 @@ namespace ecommerce_backend.Services
         private readonly LoggingHelper _logger;
         private readonly ApplicationDbContext _db;
         private readonly IMapper _mapper;
+        private readonly IPasswordHasher<User> _passwordHasher;
 
-        public UserService(ILogger<UserService> logger, ApplicationDbContext db, IMapper mapper)
+        public UserService(ILogger<UserService> logger, ApplicationDbContext db, IMapper mapper, IPasswordHasher<User> passwordhasher)
         {
             _logger = new LoggingHelper(logger);
             _db = db;
             _mapper = mapper;
+            _passwordHasher = passwordhasher;
         }
 
         // READ
@@ -80,6 +83,7 @@ namespace ecommerce_backend.Services
             // Pagination
             query = query.Skip((dto.Page - 1) * dto.PageSize).Take(dto.PageSize);
 
+            _logger.SearchDb<User>(totalItems);
             var users = await query.ToListAsync();
             var mappedUsers = _mapper.Map<IEnumerable<ReadUserDto>>(users);
 
@@ -104,6 +108,8 @@ namespace ecommerce_backend.Services
             }
 
             var newUser = _mapper.Map<User>(dto);
+
+            newUser.Password = _passwordHasher.HashPassword(newUser, dto.Password);
 
             _logger.CreateDb<User>(nameof(newUser.Username), newUser.Username);
             _db.User.Add(newUser);
