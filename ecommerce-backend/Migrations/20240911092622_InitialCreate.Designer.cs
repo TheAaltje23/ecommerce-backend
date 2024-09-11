@@ -12,7 +12,7 @@ using ecommerce_backend.Models;
 namespace ecommerce_backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240903112034_InitialCreate")]
+    [Migration("20240911092622_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

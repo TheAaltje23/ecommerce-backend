@@ -6,7 +6,6 @@ using ecommerce_backend.Helpers;
 using ecommerce_backend.Interfaces;
 using ecommerce_backend.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
 
 namespace ecommerce_backend.Services
 {
@@ -32,7 +31,7 @@ namespace ecommerce_backend.Services
         }
 
         public async Task<PaginationDto<ReadUserDto>> Search(SearchUserDto dto)
-        {   
+        {
             IQueryable<User> query = _db.User;
 
             // Filtering
