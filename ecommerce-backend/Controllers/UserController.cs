@@ -39,6 +39,15 @@ namespace ecommerce_backend.Controllers
         }
 
         // POST
+        [HttpPost("register")]
+        public async Task<IActionResult> RegisterUser([FromBody] RegisterUserDto dto)
+        {
+            _logger.ReceiveHttpRequest<User>(nameof(RegisterUser));
+            await _service.RegisterUser(dto);
+            _logger.ReturnHttpResponse<User>(nameof(RegisterUser));
+            return Created();
+        }
+
         [HttpPost("create")]
         public async Task<IActionResult> CreateUser([FromBody] CreateUserDto dto)
         {

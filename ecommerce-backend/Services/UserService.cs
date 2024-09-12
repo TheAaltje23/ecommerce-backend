@@ -98,6 +98,24 @@ namespace ecommerce_backend.Services
         }
 
         // CREATE
+        public async Task RegisterUser(RegisterUserDto dto)
+        {
+            var existingUser = await _db.User.FirstOrDefaultAsync(u => u.Username == dto.Username);
+            
+            if (existingUser != null)
+            {
+                throw new AlreadyExistsException<User>(nameof(dto.Username), dto.Username);
+            }
+
+            var newUser = _mapper.Map<User>(dto);
+
+            newUser.Password = _passwordHasher.HashPassword(newUser, dto.Password);
+
+            _logger.CreateDb<User>(nameof(newUser.Username), newUser.Username);
+            _db.User.Add(newUser);
+            await _db.SaveChangesAsync();
+        }
+
         public async Task CreateUser(CreateUserDto dto)
         {
             var existingUser = await _db.User.FirstOrDefaultAsync(u => u.Username == dto.Username);
@@ -122,7 +140,7 @@ namespace ecommerce_backend.Services
             var existingUser = await _db.User.FindAsync(id) ?? throw new NotFoundException<User>(nameof(id), id);
 
             existingUser.Username = dto.Username ?? existingUser.Username;
-            existingUser.Password = dto.Password ?? existingUser.Password;
+            existingUser.Password = dto.Password != null ? _passwordHasher.HashPassword(existingUser, dto.Password) : existingUser.Password;
             existingUser.FirstName = dto.FirstName ?? existingUser.FirstName;
             existingUser.LastName = dto.LastName ?? existingUser.LastName;
             existingUser.Email = dto.Email ?? existingUser.Email;

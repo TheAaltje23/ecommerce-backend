@@ -10,6 +10,7 @@ namespace ecommerce_backend.Mappers
         {
             CreateMap<User, ReadUserDto>();
             CreateMap<CreateUserDto, User>();
+            CreateMap<RegisterUserDto, User>();
         }
     }
 }

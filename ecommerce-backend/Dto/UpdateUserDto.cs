@@ -5,7 +5,6 @@ namespace ecommerce_backend.Dto
 {
     public class UpdateUserDto
     {
-        [RegularExpression(@"\S+", ErrorMessage = "Username cannot be blank.")]
         [StringLength(50, MinimumLength = 8, ErrorMessage = "Username must be between 8 and 50 characters long.")]
         public string? Username { get; init; }
 
