@@ -48,6 +48,15 @@ namespace ecommerce_backend.Controllers
             return Created();
         }
 
+        [HttpPost("login")]
+        public async Task<IActionResult> LogIn([FromBody] LogInDto dto)
+        {
+            _logger.ReceiveHttpRequest<User>(nameof(LogIn));
+            await _service.LogIn(dto);
+            _logger.ReturnHttpResponse<User>(nameof(LogIn));
+            return Ok();
+        }
+
         [HttpPost("create")]
         public async Task<IActionResult> CreateUser([FromBody] CreateUserDto dto)
         {

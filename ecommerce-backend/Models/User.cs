@@ -9,11 +9,11 @@ namespace ecommerce_backend.Models
 
         [Required(ErrorMessage = "Username is required.")]
         [StringLength(50, MinimumLength = 8, ErrorMessage = "Username must be between 8 and 50 characters long.")]
-        public string? Username { get; set; }
+        public required string Username { get; set; }
 
         [Required(ErrorMessage = "Password is required.")]
         [StringLength(100, MinimumLength = 8, ErrorMessage = "Password must be between 8 and 100 characters long.")]
-        public string? Password { get; set; }
+        public required string Password { get; set; }
 
         [StringLength(50, ErrorMessage = "First name cannot be longer than 50 characters.")]
         public string? FirstName { get; set; }

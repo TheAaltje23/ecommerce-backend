@@ -4,6 +4,7 @@ using ecommerce_backend.Mappers;
 using ecommerce_backend.Middleware;
 using ecommerce_backend.Models;
 using ecommerce_backend.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
@@ -33,9 +34,10 @@ builder.Services.AddProblemDetails();
 builder.Services.AddAutoMapper(typeof(UserProfile));
 
 // Authentication
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer();
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 
-// Custom services
+// Model services
 builder.Services.AddScoped<IUserService, UserService>();
 
 // DbContext for EFC (PostgreSQL) & mapping User.Role enum
@@ -58,6 +60,8 @@ app.UseStatusCodePages();
 app.UseExceptionHandler();
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

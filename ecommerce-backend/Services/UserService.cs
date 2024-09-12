@@ -5,6 +5,7 @@ using ecommerce_backend.Exceptions;
 using ecommerce_backend.Helpers;
 using ecommerce_backend.Interfaces;
 using ecommerce_backend.Models;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -114,6 +115,19 @@ namespace ecommerce_backend.Services
             _logger.CreateDb<User>(nameof(newUser.Username), newUser.Username);
             _db.User.Add(newUser);
             await _db.SaveChangesAsync();
+        }
+
+        public async Task LogIn(LogInDto dto)
+        {
+            var existingUser = await _db.User.FirstOrDefaultAsync(u => u.Username == dto.Username) ?? throw new UnauthorizedAccessException("Invalid username or password.");
+            var verificationResult = _passwordHasher.VerifyHashedPassword(existingUser, existingUser.Password, dto.Password);
+
+            if (verificationResult == PasswordVerificationResult.Failed)
+            {
+                throw new UnauthorizedAccessException("Invalid username or password.");
+            }
+
+            return;
         }
 
         public async Task CreateUser(CreateUserDto dto)

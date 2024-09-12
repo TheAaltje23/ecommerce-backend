@@ -45,6 +45,7 @@ namespace ecommerce_backend.Middleware
             {
                 AlreadyExistsException => (StatusCodes.Status400BadRequest, exception.Message),
                 NotFoundException => (StatusCodes.Status404NotFound, exception.Message),
+                UnauthorizedAccessException => (StatusCodes.Status401Unauthorized, exception.Message),
                 _ => (StatusCodes.Status500InternalServerError, exception.Message), // Default
             };
         }
