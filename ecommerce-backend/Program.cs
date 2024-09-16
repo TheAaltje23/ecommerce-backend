@@ -17,7 +17,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Configuration files
 builder.Configuration
     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-    .AddJsonFile("appsettings.key.json", optional: true, reloadOnChange: true);
+    .AddUserSecrets<Program>();
 
 // Services
 builder.Services.AddControllers()
