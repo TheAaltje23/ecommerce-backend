@@ -3,6 +3,7 @@ using ecommerce_backend.Interfaces;
 using ecommerce_backend.Helpers;
 using ecommerce_backend.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ecommerce_backend.Controllers
 {
@@ -29,6 +30,7 @@ namespace ecommerce_backend.Controllers
             return Ok(user);
         }
 
+        [Authorize]
         [HttpGet("search")]
         public async Task<IActionResult> Search([FromQuery] SearchUserDto dto)
         {
