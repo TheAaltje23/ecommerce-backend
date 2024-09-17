@@ -8,7 +8,6 @@ namespace ecommerce_backend.Interfaces
         Task<PaginationDto<ReadUserDto>> Search(SearchUserDto dto);
         Task RegisterUser(RegisterUserDto dto);
         Task<string> LogIn(LogInDto dto);
-        //Task LogOut(LogOutDto dto);
         Task CreateUser(CreateUserDto dto);
         Task UpdateUser(UpdateUserDto dto, long id);
         Task DeleteUser(long id);
