@@ -2,8 +2,8 @@ using ecommerce_backend.Dto;
 using ecommerce_backend.Interfaces;
 using ecommerce_backend.Helpers;
 using ecommerce_backend.Models;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ecommerce_backend.Controllers
 {
