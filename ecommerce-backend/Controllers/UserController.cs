@@ -21,6 +21,7 @@ namespace ecommerce_backend.Controllers
         }
 
         // GET
+        [Authorize(Roles = "Admin")]
         [HttpGet("{id:long}")]
         public async Task<IActionResult> GetUserById(long id)
         {
@@ -30,7 +31,7 @@ namespace ecommerce_backend.Controllers
             return Ok(user);
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpGet("search")]
         public async Task<IActionResult> Search([FromQuery] SearchUserDto dto)
         {
@@ -54,11 +55,12 @@ namespace ecommerce_backend.Controllers
         public async Task<IActionResult> LogIn([FromBody] LogInDto dto)
         {
             _logger.ReceiveHttpRequest<User>(nameof(LogIn));
-            await _service.LogIn(dto);
+            var token = await _service.LogIn(dto);
             _logger.ReturnHttpResponse<User>(nameof(LogIn));
-            return Ok();
+            return Ok(new { token });
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost("create")]
         public async Task<IActionResult> CreateUser([FromBody] CreateUserDto dto)
         {
@@ -69,6 +71,7 @@ namespace ecommerce_backend.Controllers
         }
 
         // PUT
+        [Authorize(Roles = "Admin")]
         [HttpPut("update/{id}")]
         public async Task<IActionResult> UpdateUser([FromBody] UpdateUserDto dto, long id)
         {
@@ -79,6 +82,7 @@ namespace ecommerce_backend.Controllers
         }
 
         // DELETE
+        [Authorize(Roles = "Admin")]
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> DeleteUser(long id)
         {

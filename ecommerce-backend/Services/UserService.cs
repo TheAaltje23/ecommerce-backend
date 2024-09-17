@@ -5,7 +5,6 @@ using ecommerce_backend.Exceptions;
 using ecommerce_backend.Helpers;
 using ecommerce_backend.Interfaces;
 using ecommerce_backend.Models;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,13 +16,15 @@ namespace ecommerce_backend.Services
         private readonly ApplicationDbContext _db;
         private readonly IMapper _mapper;
         private readonly IPasswordHasher<User> _passwordHasher;
+        private readonly ITokenService _tokenService;
 
-        public UserService(ILogger<UserService> logger, ApplicationDbContext db, IMapper mapper, IPasswordHasher<User> passwordhasher)
+        public UserService(ILogger<UserService> logger, ApplicationDbContext db, IMapper mapper, IPasswordHasher<User> passwordhasher, ITokenService tokenService)
         {
             _logger = new LoggingHelper(logger);
             _db = db;
             _mapper = mapper;
             _passwordHasher = passwordhasher;
+            _tokenService = tokenService;
         }
 
         // READ
@@ -102,7 +103,7 @@ namespace ecommerce_backend.Services
         public async Task RegisterUser(RegisterUserDto dto)
         {
             var existingUser = await _db.User.FirstOrDefaultAsync(u => u.Username == dto.Username);
-            
+
             if (existingUser != null)
             {
                 throw new AlreadyExistsException<User>(nameof(dto.Username), dto.Username);
@@ -117,7 +118,7 @@ namespace ecommerce_backend.Services
             await _db.SaveChangesAsync();
         }
 
-        public async Task LogIn(LogInDto dto)
+        public async Task<string> LogIn(LogInDto dto)
         {
             var existingUser = await _db.User.FirstOrDefaultAsync(u => u.Username == dto.Username) ?? throw new UnauthorizedAccessException("Invalid username or password.");
             var verificationResult = _passwordHasher.VerifyHashedPassword(existingUser, existingUser.Password, dto.Password);
@@ -127,7 +128,7 @@ namespace ecommerce_backend.Services
                 throw new UnauthorizedAccessException("Invalid username or password.");
             }
 
-            return;
+            return _tokenService.GenerateToken(existingUser);
         }
 
         public async Task CreateUser(CreateUserDto dto)

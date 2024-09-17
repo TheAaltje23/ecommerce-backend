@@ -4,11 +4,14 @@ using ecommerce_backend.Mappers;
 using ecommerce_backend.Middleware;
 using ecommerce_backend.Models;
 using ecommerce_backend.Services;
+using ecommerce_backend.Swagger;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Npgsql;
+using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -28,6 +31,7 @@ builder.Services.AddControllers()
     });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
 
 // Exception handling
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
@@ -55,8 +59,9 @@ builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 // Authorization
 builder.Services.AddAuthorization();
 
-// Model services
+// Custom services
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
 
 // DbContext for EFC (PostgreSQL) & mapping User.Role enum
 var dataSourceBuilder = new NpgsqlDataSourceBuilder(builder.Configuration.GetConnectionString("DefaultConnection"));

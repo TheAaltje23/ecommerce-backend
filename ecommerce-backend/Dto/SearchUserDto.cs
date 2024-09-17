@@ -17,7 +17,7 @@ namespace ecommerce_backend.Dto
         public int PageSize { get; init; } = 10;
 
         // Sorting defaults
-        public string SortBy { get; init; } = "Username";
+        public string SortBy { get; init; } = "Id";
         public string SortOrder { get; init; } = "asc";
     }
 }
