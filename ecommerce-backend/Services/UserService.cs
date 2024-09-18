@@ -128,6 +128,7 @@ namespace ecommerce_backend.Services
                 throw new UnauthorizedAccessException("Invalid username or password.");
             }
 
+            _logger.LogIn<User>(nameof(dto.Username), dto.Username);
             return _tokenService.GenerateToken(existingUser);
         }
 

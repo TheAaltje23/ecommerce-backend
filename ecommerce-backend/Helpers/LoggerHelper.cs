@@ -31,6 +31,11 @@
             _logger.LogInformation($"Fetching {amount} {typeof(T).Name}s from the database.");
         }
 
+        public void LogIn<T>(string propertyName, object? propertyValue)
+        {
+            _logger.LogInformation($"{typeof(T).Name} with {propertyName.ToLower()}: {propertyValue} is logging in.");
+        }
+
         public void CreateDb<T>(string propertyName, object? propertyValue)
         {
             _logger.LogInformation($"Creating {typeof(T).Name} with {propertyName.ToLower()}: {propertyValue} and saving it to the database.");
