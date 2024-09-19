@@ -100,6 +100,24 @@ namespace ecommerce_backend.Services
         }
 
         // CREATE
+        public async Task CreateUser(CreateUserDto dto)
+        {
+            var existingUser = await _db.User.FirstOrDefaultAsync(u => u.Username == dto.Username);
+
+            if (existingUser != null)
+            {
+                throw new AlreadyExistsException<User>(nameof(dto.Username), dto.Username);
+            }
+
+            var newUser = _mapper.Map<User>(dto);
+
+            newUser.Password = _passwordHasher.HashPassword(newUser, dto.Password);
+
+            _logger.CreateDb<User>(nameof(newUser.Username), newUser.Username);
+            _db.User.Add(newUser);
+            await _db.SaveChangesAsync();
+        }
+
         public async Task RegisterUser(RegisterUserDto dto)
         {
             var existingUser = await _db.User.FirstOrDefaultAsync(u => u.Username == dto.Username);
@@ -132,24 +150,6 @@ namespace ecommerce_backend.Services
             return _tokenService.GenerateToken(existingUser);
         }
 
-        public async Task CreateUser(CreateUserDto dto)
-        {
-            var existingUser = await _db.User.FirstOrDefaultAsync(u => u.Username == dto.Username);
-
-            if (existingUser != null)
-            {
-                throw new AlreadyExistsException<User>(nameof(dto.Username), dto.Username);
-            }
-
-            var newUser = _mapper.Map<User>(dto);
-
-            newUser.Password = _passwordHasher.HashPassword(newUser, dto.Password);
-
-            _logger.CreateDb<User>(nameof(newUser.Username), newUser.Username);
-            _db.User.Add(newUser);
-            await _db.SaveChangesAsync();
-        }
-
         // UPDATE
         public async Task UpdateUser(UpdateUserDto dto, long id)
         {
@@ -168,6 +168,20 @@ namespace ecommerce_backend.Services
             }
 
             _logger.UpdateDb<User>(nameof(id), id);
+            _db.User.Update(existingUser);
+            await _db.SaveChangesAsync();
+        }
+
+        public async Task UpdateUserInfo(UpdateUserInfoDto dto, long jwtId)
+        {
+            var existingUser = await _db.User.FindAsync(jwtId) ?? throw new NotFoundException<User>(nameof(jwtId), jwtId);
+
+            existingUser.FirstName = dto.FirstName ?? existingUser.FirstName;
+            existingUser.LastName = dto.LastName ?? existingUser.LastName;
+            existingUser.Email = dto.Email ?? existingUser.Email;
+            existingUser.PhoneNumber = dto.PhoneNumber ?? existingUser.PhoneNumber;
+
+            _logger.UpdateDb<User>(nameof(jwtId), jwtId);
             _db.User.Update(existingUser);
             await _db.SaveChangesAsync();
         }

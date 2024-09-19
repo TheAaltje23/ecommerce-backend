@@ -6,10 +6,11 @@ namespace ecommerce_backend.Interfaces
     {
         Task<ReadUserDto> GetUserById(long id);
         Task<PaginationDto<ReadUserDto>> Search(SearchUserDto dto);
+        Task CreateUser(CreateUserDto dto);
         Task RegisterUser(RegisterUserDto dto);
         Task<string> LogIn(LogInDto dto);
-        Task CreateUser(CreateUserDto dto);
         Task UpdateUser(UpdateUserDto dto, long id);
+        Task UpdateUserInfo(UpdateUserInfoDto dto, long jwtId);
         Task DeleteUser(long id);
     }
 }

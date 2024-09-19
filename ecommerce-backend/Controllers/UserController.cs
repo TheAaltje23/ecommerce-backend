@@ -4,6 +4,7 @@ using ecommerce_backend.Helpers;
 using ecommerce_backend.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace ecommerce_backend.Controllers
 {
@@ -42,6 +43,16 @@ namespace ecommerce_backend.Controllers
         }
 
         // POST
+        [Authorize(Roles = "Admin")]
+        [HttpPost("create")]
+        public async Task<IActionResult> CreateUser([FromBody] CreateUserDto dto)
+        {
+            _logger.ReceiveHttpRequest<User>(nameof(CreateUser));
+            await _service.CreateUser(dto);
+            _logger.ReturnHttpResponse<User>(nameof(CreateUser));
+            return Created();
+        }
+
         [HttpPost("register")]
         public async Task<IActionResult> RegisterUser([FromBody] RegisterUserDto dto)
         {
@@ -60,16 +71,6 @@ namespace ecommerce_backend.Controllers
             return Ok(new { token });
         }
 
-        [Authorize(Roles = "Admin")]
-        [HttpPost("create")]
-        public async Task<IActionResult> CreateUser([FromBody] CreateUserDto dto)
-        {
-            _logger.ReceiveHttpRequest<User>(nameof(CreateUser));
-            await _service.CreateUser(dto);
-            _logger.ReturnHttpResponse<User>(nameof(CreateUser));
-            return Created();
-        }
-
         // PUT
         [Authorize(Roles = "Admin")]
         [HttpPut("update/{id}")]
@@ -78,6 +79,18 @@ namespace ecommerce_backend.Controllers
             _logger.ReceiveHttpRequest<User>(nameof(UpdateUser));
             await _service.UpdateUser(dto, id);
             _logger.ReturnHttpResponse<User>(nameof(UpdateUser));
+            return NoContent();
+        }
+        
+        [Authorize]
+        [HttpPut("update")]
+        public async Task<IActionResult> UpdateUserInfo([FromBody] UpdateUserInfoDto dto)
+        {
+            _logger.ReceiveHttpRequest<User>(nameof(UpdateUserInfo));
+            var jwtId = long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier) 
+                ?? throw new UnauthorizedAccessException("You are not logged in."));
+            await _service.UpdateUserInfo(dto, jwtId);
+            _logger.ReturnHttpResponse<User>(nameof(UpdateUserInfo));
             return NoContent();
         }
 
