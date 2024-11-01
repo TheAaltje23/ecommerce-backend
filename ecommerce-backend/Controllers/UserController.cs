@@ -81,13 +81,13 @@ namespace ecommerce_backend.Controllers
             _logger.ReturnHttpResponse<User>(nameof(UpdateUser));
             return NoContent();
         }
-        
+
         [Authorize]
         [HttpPut("update")]
         public async Task<IActionResult> UpdateUserInfo([FromBody] UpdateUserInfoDto dto)
         {
             _logger.ReceiveHttpRequest<User>(nameof(UpdateUserInfo));
-            var jwtId = long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier) 
+            var jwtId = long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)
                 ?? throw new UnauthorizedAccessException("You are not logged in."));
             await _service.UpdateUserInfo(dto, jwtId);
             _logger.ReturnHttpResponse<User>(nameof(UpdateUserInfo));

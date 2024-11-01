@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35122.118
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ecommerce-backend", "ecommerce-backend\ecommerce-backend.csproj", "{D1F91CB4-1659-4409-89A4-92FFBAA662EC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ecommerce-backend", "ecommerce-backend\ecommerce-backend.csproj", "{D1F91CB4-1659-4409-89A4-92FFBAA662EC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ecommerce-backend.Tests", "ecommerce-backend.Tests\ecommerce-backend.Tests.csproj", "{95DAB459-BF6C-4CCF-91CE-3709373C51DE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{D1F91CB4-1659-4409-89A4-92FFBAA662EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D1F91CB4-1659-4409-89A4-92FFBAA662EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D1F91CB4-1659-4409-89A4-92FFBAA662EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95DAB459-BF6C-4CCF-91CE-3709373C51DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95DAB459-BF6C-4CCF-91CE-3709373C51DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95DAB459-BF6C-4CCF-91CE-3709373C51DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95DAB459-BF6C-4CCF-91CE-3709373C51DE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
